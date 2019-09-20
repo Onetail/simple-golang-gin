@@ -25,6 +25,7 @@ func setupRouter() *gin.Engine {
 			c.JSON(http.StatusOK, gin.H{"user": user, "status": "no value"})
 		}
 	})
+	
 
 	// Authorized group (uses gin.BasicAuth() middleware)
 	// Same than:
