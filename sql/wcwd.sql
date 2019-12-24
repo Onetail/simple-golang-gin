@@ -1,0 +1,3 @@
+CREATE DATABASE  IF NOT EXISTS `wcwd`;
+USE `wcwd`;
+SET NAMES utf8 ;

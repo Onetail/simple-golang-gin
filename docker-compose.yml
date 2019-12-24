@@ -1,24 +1,17 @@
-version: '3'
+version: "3"
 
 services:
   mysql:
-    build: 
+    build:
       context: .
       dockerfile: docker/mysql/Dockerfile
     command: mysqld --default-authentication-plugin=mysql_native_password --sql_mode=""
-    environment:
-      - MYSQL_DATABASE=wcwd
-      - MYSQL_HOST=mysql
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_PORT=3306
     ports:
       - "3377:3306"
     networks:
       - backend
   golang:
-    build: 
+    build:
       context: .
       dockerfile: docker/golang/Dockerfile
     volumes:
@@ -30,7 +23,16 @@ services:
       - $PWD/main.go:/app/main.go
     ports:
       - "3000:3000"
-    entrypoint: /entrypoint.sh -d mysql:3306 -c './wcwd';
+    environment:
+      - MYSQL_DATABASE=wcwd
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PORT=3306
+    links:
+      - mysql
+    entrypoint: /entrypoint.sh -d mysql:3306 -c 'go run main.go';
     networks:
       - backend
 networks:
